@@ -30,23 +30,23 @@ public class Assignment {
         System.out.println("Enter the path for log file with file name");
         String file_l = scf.next();
         
-        File sfile = new File("D:\\Assignment\\data.txt");
-        File dfile = new File("D:\\\\Assignment\\\\data.csv");
-        FileReader fin = new FileReader(sfile);  
-        FileWriter fout = new FileWriter(dfile, true);  
+        File src_file = new File(file_s);
+        File dest_file = new File(file_d);
+        FileReader fin = new FileReader(src_file);  
+        FileWriter fout = new FileWriter(dest_file, true);  
         BufferedWriter buffer = new BufferedWriter(fout);
           
         Logger logger = Logger.getLogger(Assignment.class.getName()); 
          Pattern regex = Pattern.compile("[A-Za-z0-9|]");
         
         String str ="";
-        
+        int lengthArr, lengthSubArr;
         
         
         
         try{
             
-             FileHandler fh = new FileHandler("D:\\\\Assignment\\\\MyLogFile.log");  
+             FileHandler fh = new FileHandler(file_l);  
              logger.addHandler(fh);
              SimpleFormatter formatter = new SimpleFormatter();  
              fh.setFormatter(formatter); 
@@ -54,22 +54,21 @@ public class Assignment {
             
             
             
-            Scanner sc = new Scanner(sfile);
+            Scanner sc = new Scanner(src_file);
             
              while(sc.hasNextLine()){
                  String fileData = sc.nextLine();
-                 //System.out.println(fileData);
                 
              }
                  
-                 if(dfile.exists()){
+                 if(dest_file.exists()){
                      
                      logger.info("File already exist!!!");
                  }
                  else{
                      
-                     dfile.createNewFile();
-                     System.out.println(dfile.getName()+" created");
+                     dest_file.createNewFile();
+                     System.out.println(dest_file.getName()+" created");
                  }
                  
                  int i;
@@ -81,10 +80,9 @@ public class Assignment {
                 String[] arrOfStr = str.split("\\r?\\n");
                
                 
-                int x = arrOfStr.length;    
-                for(int s=0; s<x; s++){
+                 lengthArr = arrOfStr.length;    
+                for(int s=0; s<lengthArr; s++){
                     
-                    //Matcher m = regex.matcher(arrOfStr[s]);
                     
                     boolean result = Pattern.matches("[A-Za-z0-9|]*", arrOfStr[s]);
                     
@@ -94,14 +92,14 @@ public class Assignment {
                     String[] subArrOfStr = arrOfStr[s].split("\\|");
                     
                     
-                    int y = subArrOfStr.length;
-                    if(y!=6){
+                    lengthSubArr = subArrOfStr.length;
+                    if(lengthSubArr!=6){
                         logger.info("The data elements are not same on LINE NO : "+s);  
                         continue;
                     }
                     else{
                         
-                    String[] subArrOfStrNew = new String[y];
+                    String[] subArrOfStrNew = new String[lengthSubArr];
                    
                     subArrOfStrNew[0]=subArrOfStr[5];
                     subArrOfStrNew[1]=subArrOfStr[0];
@@ -119,7 +117,6 @@ public class Assignment {
                     subArrOfStrNew[5] = profitS;
                     subArrOfStrNew[1] = country;
                     
-                    int z = subArrOfStrNew.length;
                   
                   String joinedString = String.join("| ", subArrOfStrNew);
                   
